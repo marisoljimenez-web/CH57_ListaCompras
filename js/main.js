@@ -7,8 +7,14 @@ const alertValidacionesTexto = document.getElementById("alertValidacionesTexto")
 const tablaListaCompras = document.getElementById("tablaListaCompras");
 const cuerpoTabla = tablaListaCompras.getElementsByTagName("tbody").item(0);
 
+const contadorProductos =document.getElementById("contadorProductos");
+const precioTotal = document.getElementById("precioTotal");
+const productosTotal = document.getElementById("productosTotal");
+
 
 let contador = 0;
+let costoTotal = 0;
+let totalEnProductos = 0;
 
 function validarCantidad(){
     if(txtNumber.value.length==0){
@@ -70,6 +76,14 @@ btnAgregar.addEventListener("click", function(event){
         </tr>`;
 
         cuerpoTabla.insertAdjacentHTML("beforeend", row);
+        contadorProductos.innerHTML=contador;
+        totalEnProductos += Number(txtNumber.value);
+        productosTotal.innertext = totalEnProductos;
+        costoTotal += precio * Number(txtNumber.value);
+        //costoTotal.toFixed(2) para establecer dos decimales, forma fácil
+        precioTotal.innerText = new Intl.NumberFormat("es-MX", 
+                    { style: "currency", currency: "MXN" }).format(costoTotal);
+
         txtName.value="";
         txtNumber.value="";
         txtName.focus();
