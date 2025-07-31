@@ -4,6 +4,11 @@ const btnAgregar = document.getElementById("btnAgregar");
 const btnClear = document.getElementById("btnClear");
 const alertValidaciones = document.getElementById("alertValidaciones");
 const alertValidacionesTexto = document.getElementById("alertValidacionesTexto");
+const tablaListaCompras = document.getElementById("tablaListaCompras");
+const cuerpoTabla = tablaListaCompras.getElementsByTagName("tbody").item(0);
+
+
+let contador = 0;
 
 function validarCantidad(){
     if(txtNumber.value.length==0){
@@ -27,7 +32,7 @@ function getPrecio(){
 
 btnAgregar.addEventListener("click", function(event){
     event.preventDefault();
-
+    let isValid = true;
     alertValidacionesTexto.innerHTML="";
     alertValidaciones.style.display="none";
     txtName.style.border="";
@@ -39,6 +44,7 @@ btnAgregar.addEventListener("click", function(event){
         txtName.style.border="medium red solid";
         alertValidacionesTexto.innerHTML="<strong>El nombre del producto no es válido</strong>";
         alertValidaciones.style.display="block";
+        isValid = false;
     } //<3
 
     
@@ -50,6 +56,23 @@ btnAgregar.addEventListener("click", function(event){
         txtNumber.style.border="medium red solid";
         alertValidacionesTexto.innerHTML += "<strong>La cantidad no es correcta</strong>";
         alertValidaciones.style.display="block";
+        isValid = false;
     }
+
+    if(isValid){
+        contador++;
+        let precio = getPrecio();
+        let row = `<tr>
+            <td>${contador}</td>
+            <td>${txtName.value}</td>
+            <td>${txtNumber.value}</td>
+            <td>${precio}</td>
+        </tr>`;
+
+        cuerpoTabla.insertAdjacentHTML("beforeend", row);
+        txtName.value="";
+        txtNumber.value="";
+        txtName.focus();
+    }//is valid
 });
 
