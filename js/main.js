@@ -16,6 +16,9 @@ let contador = 0;
 let costoTotal = 0;
 let totalEnProductos = 0;
 
+let datos = new Array(); //[]
+
+
 function validarCantidad(){
     if(txtNumber.value.length==0){
         return false;
@@ -74,6 +77,14 @@ btnAgregar.addEventListener("click", function(event){
             <td>${txtNumber.value}</td>
             <td>${precio}</td>
         </tr>`;
+        let elemento = {
+            "contador" : contador,
+            "nombre" : txtName.value,
+            "cantidad" :txtNumber.value,
+            "precio" : precio
+        };
+        datos.push(elemento);
+        localStorage.setItem("datos", JSON.stringify(datos));
 
         cuerpoTabla.insertAdjacentHTML("beforeend", row);
         contadorProductos.innerHTML=contador;
@@ -83,6 +94,17 @@ btnAgregar.addEventListener("click", function(event){
         //costoTotal.toFixed(2) para establecer dos decimales, forma fácil
         precioTotal.innerText = new Intl.NumberFormat("es-MX", 
                     { style: "currency", currency: "MXN" }).format(costoTotal);
+
+
+        let resumen = {
+            "contador" : contador,
+            "totalEnProductos" : totalEnProductos,
+            "costoTotal" : costoTotal
+        };
+
+        localStorage.setItem("resumen", JSON.stringify(resumen) );
+
+
 
         txtName.value="";
         txtNumber.value="";
